@@ -63,3 +63,6 @@ buildControls();
 ## Things to come ?
 It's only early developpement so even if it's functionnal it'll evolve as to propose parameters like choosing which options one's want and stuff.
 Also making it a React component will probably be done
+
+## Preview
+<img src="img/readme.jpg" alt="drawing" width="600"/>
