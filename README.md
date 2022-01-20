@@ -1,8 +1,6 @@
 # 3D-player-for-web-browser
 ## Display 3D Models with JS the easy way
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 Uses Google's [model-viewer](https://modelviewer.dev/) library to display 3D models.
 This library isn't made to be used like ThreeJS. The main purpose of model-viewer is to display 3D models. Interactivity isn't at the core of the lib, even if some options are possible (play/pause animation, play several animations, show/hide parts, ect)
 
