@@ -59,7 +59,7 @@ buildControls();
 ```
 
 ## Options
-It's possible to propose several models to the player :
+- It's possible to propose several models to the player :
 ```js
 const models = [
     {
