@@ -5,12 +5,25 @@
  * 3rd parameter : path to the model. Ideally .glb
  * 4rth paramter : path to the hotspots (optionnal)
  */
-let player = new VideoPlayer("crane", "lazy-load", "modeles/5582b6d0-ad24-46e3-a008-7a52c5178cc02.glb", "modeles/Cheval.json")
 
+const models = [
+    {
+        src:'modeles/5582b6d0-ad24-46e3-a008-7a52c5178cc02.glb',
+        poi:'modeles/Cheval.json',
+    },
+    {
+        src:'modeles/Dinosaur.glb',
+        poi:null, 
+    }
+]
+
+// let player = new ModelPlayer("crane", "lazy-load", "modeles/5582b6d0-ad24-46e3-a008-7a52c5178cc02.glb", "modeles/Cheval.json") // if you have one model. For severals models, pass them as an array
+let playerMulti = new ModelPlayer("crane", "lazy-load", models, null)
 /**
  * build and display the player
  */
-const buildedPlayer = player.buildPlayer();
+// const buildedPlayer = player.buildPlayer();
+const buildedPlayer = playerMulti.buildPlayer();
 
 const buildControls = () =>{
     /**
@@ -18,10 +31,10 @@ const buildControls = () =>{
      * if you only want to display the 3D model, then do not proceed with this step
      */
     buildedPlayer.addEventListener('load', ()=>{
-        player.buildControls();
-        player.buildSidebar();
-
-        player.addTextureAndColor(); //only call this function if you use a blank model and want its parts colorized. The color is randomly generated. it also setRoughnessFactor to 1
+        playerMulti.buildControls();
+        playerMulti.buildSidebar();
+        console.log(models)
+        playerMulti.addTextureAndColor(); //only call this function if you use a blank model and want its parts colorized. The color is randomly generated. it also setRoughnessFactor to 1
 
         const modelViewer = document.querySelector("#player");
         const tapDistance = 2;
