@@ -34,7 +34,7 @@ Inside you page create an empty div, name it however you want but it has to have
 And instantiate the player in you JS script
 
 ```js
-let player = new VideoPlayer("player", "your3DModelID", "your GLB model path", "Your POI JSON file")
+let player = new ModelPlayer("player", "your3DModelID", "your GLB model path", "Your POI JSON file")
 
 const buildedPlayer = player.buildPlayer();
 ```
@@ -56,6 +56,23 @@ const buildControls = () =>{
 }
 
 buildControls();
+```
+
+## Options
+It's possible to propose several models to the player :
+```js
+const models = [
+    {
+        src:'path to the first model.glb',
+        poi:'path to the first model poi json's file',
+    },
+    {
+        src:'path to the second model.glb',
+        poi:null, //if no poi json then pass null or undefined
+    }
+]
+
+let playerMulti = new ModelPlayer("crane", "lazy-load", models, null)
 ```
 
 ## Things to come ?
