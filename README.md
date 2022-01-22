@@ -24,7 +24,7 @@ I use several libraries. Only one is mandatory, of course : [model-viewer](https
 
 ## How to use
 
-You can use the project as is or make your own with only ``` js/VideoPlayer.js```
+You can use the project as is or make your own with only ``` js/ModelPlayer.js```
 
 Inside you page create an empty div, name it however you want but it has to have an ID
 ```html
