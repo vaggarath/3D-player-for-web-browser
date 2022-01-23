@@ -14,6 +14,9 @@ class ModelPlayer{
         this.sidebar = null
         this.show = false;
         this.multi = typeof _model === "object" ? true : false //if there is more than one model
+        this.x=0
+        this.y=0
+        this.z=0
     }
 
     buildPlayer(id){
@@ -25,7 +28,7 @@ class ModelPlayer{
         player.setAttribute('shadow-intensity', "0")
         player.setAttribute('exposure', "1")
         player.setAttribute('ar-modes', "webxr scene-viewer quick-look")
-        player.setAttribute('camera-controls', true)
+        player.setAttribute('camera-controls', '')
         player.setAttribute('ar', true)
 
         const poster = document.createElement('div')
@@ -59,6 +62,7 @@ class ModelPlayer{
         playerParent.id ="myProgress"
         playerParent.classList.add('d-flex')
         playerParent.classList.add('mt-2')
+        playerParent.classList.add('mx-auto')
         
         const playBtn = document.createElement('i')
         playBtn.id = "play"
@@ -90,11 +94,29 @@ class ModelPlayer{
         duration.id="duration"
         duration.innerText = "0:00 / 0:00"
 
+        // TBC
+        // const cursor = document.createElement('div')
+        // cursor.id = "time-cursor";
+
+        // cursor.onmousedown=(e)=>{
+        //     // window.onmousedown = handleMouseMove;
+        //     // console.log(e.clientX)
+
+        //     moveCursor(e.clientX)
+        // }
+
         playerParent.append(playBtn)
         playerParent.append(bar)
+        // playerParent.append(cursor)
         playerParent.append(duration)
 
+        player.currentTime=0.1
+
         player.append(playerParent)
+
+        // function moveCursor(xPos){
+        //     console.log(xPos)
+        // }
 
         function move(time, pause) {
             // console.log("temps de l'animation : "+parseInt(time))
@@ -111,6 +133,7 @@ class ModelPlayer{
                     clearInterval(id);
                     i = 0;
                     elem.style.width = "0%"
+                    player.currentTime=0.1;
                     if(playBtn.classList.contains('fa-pause-circle')){
                         // console.log('oui')
                         playBtn.classList.remove('fa-pause-circle')
@@ -213,8 +236,12 @@ class ModelPlayer{
             divCtrl.append(partName)
 
             sideBar.append(divCtrl)
+
+            const gamePad = this.buildGamePad()
+            sideBar.append(gamePad)
             
         })
+        
 
         player.append(sideBar)
         this.sidebar = sideBar
@@ -225,6 +252,11 @@ class ModelPlayer{
 
         if(this.poi){
             this.hotSpotBtn();
+        }
+
+        if(typeof this.model === "object" && id && this.model[id].part){
+            // console.log(this.model[id].part)
+            this.movePart(this.model[id].part);
         }
 
         if(typeof this.model === "object" && this.model[0].poi && !id ){
@@ -408,6 +440,83 @@ class ModelPlayer{
 
         sideBar.append(select)
         
+    }
+
+    movePart = (id) =>{
+        const part = parseInt(id)
+        const modelPart = this.player
+        const materials = modelPart.model.materials;
+        console.log(modelPart.model.materials[id])
+
+        modelPart.model.materials[id].normalTexture.position = `${150}deg ${250}deg ${250}deg`;
+        materials[part]. updateFraming()
+    }
+
+    buildGamePad(){
+        const model = this.player
+
+        const dpad = document.createElement('div')
+        dpad.classList.add('d-pad')
+        dpad.classList.add('mx-auto')
+
+        const up = document.createElement('div')
+        up.classList.add('d-pad-button')
+        up.classList.add('up')
+        up.onclick =(e)=>{
+            e.preventDefault()
+            console.log(model.orientation)
+            this.y = this.y-10
+            model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
+        }
+
+        const down =document.createElement('div')
+        down.classList.add('d-pad-button')
+        down.classList.add('down')
+        down.onclick =(e)=>{
+            e.preventDefault()
+            console.log(model.orientation)
+            this.y = this.y+10
+            model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
+        }
+
+        const left = document.createElement('div')
+        left.classList.add('d-pad-button')
+        left.classList.add('left')
+        left.onclick=(e)=>{
+            e.preventDefault()
+            console.log(model.orientation)
+            this.x = this.x+10
+            model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
+        }
+
+        const right = document.createElement('div')
+        right.classList.add('d-pad-button')
+        right.classList.add('right')
+        right.onclick=(e)=>{
+            e.preventDefault()
+            console.log(model.orientation)
+            this.x = this.x-10
+            model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
+        }
+
+        const barrelRoll = document.createElement('div')
+        barrelRoll.classList.add('directions')
+        barrelRoll.classList.add('directions-horizontal')
+        barrelRoll.classList.add('mx-auto')
+        barrelRoll.onclick=(e)=>{
+            e.preventDefault()
+            console.log(model.orientation)
+            this.z = this.z-10
+            model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
+        }
+
+        dpad.append(up)
+        dpad.append(down)
+        dpad.append(left)
+        dpad.append(right)
+        dpad.append(barrelRoll)
+
+        return dpad;
     }
 
 }

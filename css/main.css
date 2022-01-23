@@ -96,7 +96,8 @@ td {
 
 
   #myProgress {
-    width: 100%;
+    width: 90%;
+    opacity:0.8;
     /* display:none; */
     background-color: #121823;
     position: relative;
@@ -303,6 +304,13 @@ transition: all .5s ease;
   right:0;
 }
 
+@media screen and (max-width: 1280px)
+{
+  #champ-info_troisd{
+    display:none;
+  }
+}
+
 .barrehr{
   display:none !important;
 }
@@ -414,3 +422,136 @@ i{
 #hideTitle{
   text-align: start;
 }
+
+#time-cursor{
+  width:2.8rem;
+  border-radius: 50%;
+  background-color: #0dcaf0;
+  cursor:col-resize;
+}
+
+/* gamepad */
+.d-pad {
+  position: absolute;
+  bottom:-100px;
+  background-color: #121823;
+  left: 50%;
+  /* width: 225px;
+  height: 300px; */
+  box-sizing: border-box;
+}
+
+.d-pad .d-pad-button {
+  width: 30px;
+  height: 30px;
+  cursor:pointer;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: rgba(255, 255, 255, 0.700);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -15px;
+  transform-origin: 15px 50px;
+  transition: background-color 50ms ease-in-out;
+}
+
+.d-pad .d-pad-button:before, .gamepad .d-pad .d-pad-button:after {
+  display: block;
+  content: "";
+}
+
+.d-pad .d-pad-button:before {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid rgba(255, 255, 255, 0.375);
+  position: absolute;
+  top: 30px;
+  transition: border-top-color 50ms ease-in-out;
+}
+
+.d-pad .d-pad-button:after {
+  height: 6px;
+  width: 6px;
+  border: 3px solid rgba(0, 128, 255, 0.875);
+  border-bottom-width: 0;
+  border-left-width: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -4px;
+  margin-left: -4px;
+  transform: rotate(315deg);
+  transition: all 150ms;
+}
+
+.d-pad .d-pad-button.down {
+  transform: rotate(180deg);
+}
+.d-pad .d-pad-button.left {
+  transform: rotate(270deg);
+}
+.d-pad .d-pad-button.right {
+  transform: rotate(90deg);
+}
+.d-pad .d-pad-button.pressed {
+  background-color: rgba(0, 128, 255, 0.875);
+}
+.d-pad .d-pad-button.pressed:before {
+  border-top-color: rgba(0, 128, 255, 0.875);
+}
+.d-pad .d-pad-button.pressed:after {
+  border-color: rgba(255, 255, 255, 0.375);
+}
+
+.directions{
+  width: 100px;
+  height: 40px;
+  background-color: #666;
+  position: absolute;
+  border-radius: 10px;
+  bottom:-7rem;
+  /* left:0; */
+  right:-50px;
+}
+
+.directions:after{
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  left: 10px;
+  width: 0; 
+  height: 0;
+}
+
+.directions:before{
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 10px;
+  width: 0; 
+  height: 0;
+}
+.directions-horizontal:after,
+.directions-vertical:after{
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #777;
+  transform: rotate(270deg);
+}
+.directions-horizontal:before,
+.directions-vertical:before{
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #777;
+  transform: rotate(90deg);
+}
+

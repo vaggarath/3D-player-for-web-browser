@@ -14,6 +14,10 @@ const models = [
     {
         src:'modeles/Dinosaur.glb',
         poi:null, 
+    },
+    {
+        src:'modeles/Guepard1.glb',
+        poi:null, 
     }
 ]
 
