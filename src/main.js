@@ -22,7 +22,7 @@ const models = [
 ]
 
 // let player = new ModelPlayer("crane", "lazy-load", "modeles/5582b6d0-ad24-46e3-a008-7a52c5178cc02.glb", "modeles/Cheval.json") // if you have one model. For severals models, pass them as an array
-let playerMulti = new ModelPlayer("crane", "lazy-load", models, null)
+let playerMulti = new ModelPlayer("crane", "lazy-load", models, null, true)
 /**
  * build and display the player
  */

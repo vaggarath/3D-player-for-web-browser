@@ -4,12 +4,12 @@ class ModelPlayer{
      * @param {player's id} _divPlayer 
      * @param {url of the model} _model 
      */
-    constructor(_divParent, _divPlayer, _model, _poi){
+    constructor(_divParent, _divPlayer, _model, _poi, _pad){
         this.parent = _divParent;
         this.player = _divPlayer;
         this.model = _model
         this.poi = _poi ? _poi : null
-        this.player = null
+        // this.player = null
         this.playerCtrl = null
         this.sidebar = null
         this.show = false;
@@ -17,6 +17,9 @@ class ModelPlayer{
         this.x=0
         this.y=0
         this.z=0
+        this.loop = true;
+        this.pad = _pad ? _pad : false;
+        this.fullOn=false
     }
 
     buildPlayer(id){
@@ -24,7 +27,7 @@ class ModelPlayer{
         player.id = "player";
         player.setAttribute('src', typeof this.model === "string" ? this.model : !id && typeof this.model === "object" ? this.model[0].src : id && typeof this.model === "object" ? this.model[id].src : "")
         player.setAttribute('reveal', "interaction")
-        player.setAttribute('skybox-image', "modeles/hall_of_finfish_4k.hdr")
+        player.setAttribute('environment-image', "modeles/pillars_1k.hdr")
         player.setAttribute('shadow-intensity', "0")
         player.setAttribute('exposure', "1")
         player.setAttribute('ar-modes', "webxr scene-viewer quick-look")
@@ -71,12 +74,19 @@ class ModelPlayer{
         playBtn.classList.add('icones')
         playBtn.onclick = (e)=>{
             if(player.availableAnimations && Array.from(player.availableAnimations).length > 0){
-               console.log(player.availableAnimations) 
                 if(playBtn.classList.contains('fa-play-circle')){
                     playBtn.classList.remove('fa-play-circle')
                     playBtn.classList.add('fa-pause-circle')
-                    player.play({repetitions:1, pingpong:false})
+                    // console.log(this.player.src)
+                    player.play({repetitions:0, pingpong:false})
+                    
                     move(player.duration, false);
+                    setTimeout(() => {
+                        if(this.player.src === "modeles/Dinosaur.glb"){
+                            const audio = new Audio('modeles/t-rex.wav')
+                            audio.play()
+                        }
+                    }, 500);
                 }else if(playBtn.classList.contains('fa-pause-circle')){
                     playBtn.classList.add('fa-play-circle')
                     playBtn.classList.remove('fa-pause-circle')
@@ -84,6 +94,25 @@ class ModelPlayer{
                     this.move(player.duration, true);
                 }
                 
+            }
+            
+        }
+
+        const playLoop = document.createElement('i')
+        playLoop.classList.add('fas')
+        playLoop.classList.add('fa-sync-alt')
+        playLoop.classList.add('icones')
+        playLoop.style.backgroundColor = "rgba(0,0,0,0)"
+        playLoop.onclick = (e) =>{
+            player.play({repetitions:"infinity", pingpong:false})
+            // console.log(document.getElementById('play'))
+            const play = document.getElementById('play')
+
+            if(play.classList.contains('fa-play-circle')){
+                play.classList.remove('fa-play-circle')
+                play.classList.add('fa-pause-circle')
+                player.play({repetitions:"infinity", pingpong:false})
+                move(player.duration, false); 
             }
             
         }
@@ -104,7 +133,7 @@ class ModelPlayer{
 
         //     moveCursor(e.clientX)
         // }
-
+        playerParent.append(playLoop)
         playerParent.append(playBtn)
         playerParent.append(bar)
         // playerParent.append(cursor)
@@ -120,7 +149,8 @@ class ModelPlayer{
 
         function move(time, pause) {
             // console.log("temps de l'animation : "+parseInt(time))
-            let i = 0;        
+            let i = 0; 
+            
             if (i == 0) {
               i = 1;
               const elem = bar;
@@ -138,11 +168,10 @@ class ModelPlayer{
                         // console.log('oui')
                         playBtn.classList.remove('fa-pause-circle')
                         playBtn.classList.add('fa-play-circle')
-                    }else{
-                        console.log("non")
                     }
-                    player.pause();
+
                 }else {
+                    
                     width=player.currentTime>0 ? player.currentTime*100/time : 100;
                     elem.style.width = width  + "%";
                     document.getElementById('duration').innerText = player.currentTime.toFixed(2) + " / " + time.toFixed(2)
@@ -172,10 +201,12 @@ class ModelPlayer{
 
         const hideTitle = document.createElement('h5')
         hideTitle.id = "hideTitle"
-        hideTitle.classList.add('mt-1')
+        hideTitle.classList.add('mt-5')
         hideTitle.innerText = "Show / Hide elements"
 
         const hideSidebar = document.createElement('button')
+        hideSidebar.classList.add('btn')
+        hideSidebar.classList.add('text-white')
         hideSidebar.onclick = (e) =>{
             e.preventDefault()
             this.sidebar.remove()
@@ -186,6 +217,9 @@ class ModelPlayer{
         hideSidebar.innerHTML='<i class="fas fa-window-close"></i>'
         hideSidebar.setAttribute('style', 'position:absolute;right:1rem;')
         
+        const fullScreen = this.fullScreener()
+        sideBar.appendChild(fullScreen)
+        
 
         sideBar.appendChild(hideSidebar)
 
@@ -194,9 +228,13 @@ class ModelPlayer{
         parts.map((part, id)=>{
             const divCtrl = document.createElement('div')
             divCtrl.classList.add('displayBtn')
+            divCtrl.classList.add('mt-1')
+            divCtrl.classList.add('d-flex')
 
             const hideBtn = document.createElement('i')
             hideBtn.classList.add('fas')
+            hideBtn.classList.add('btn')
+            hideBtn.classList.add('text-white')
             hideBtn.classList.add('fa-eye-slash')
             hideBtn.classList.add('hideElement')
             hideBtn.setAttribute('data-model', id)
@@ -210,6 +248,8 @@ class ModelPlayer{
 
             const showBtn = document.createElement('i')
             showBtn.classList.add('fas')
+            showBtn.classList.add('btn')
+            showBtn.classList.add('text-white')
             showBtn.classList.add('fa-eye')
             showBtn.classList.add('showElement')
             showBtn.setAttribute('data-model', id)
@@ -223,6 +263,8 @@ class ModelPlayer{
 
             const colorBtn = document.createElement('i')
             colorBtn.classList.add('fas')
+            colorBtn.classList.add('btn')
+            colorBtn.classList.add('text-white')
             colorBtn.classList.add('fa-paint-roller')
             colorBtn.setAttribute('data-model', id)
             colorBtn.onclick = (e)=>{
@@ -237,11 +279,12 @@ class ModelPlayer{
 
             sideBar.append(divCtrl)
 
-            const gamePad = this.buildGamePad()
-            sideBar.append(gamePad)
-            
+            if(this.pad){
+               const gamePad = this.buildGamePad()
+                // const lateral = this.buildLateral()
+                sideBar.append(gamePad)   
+            }
         })
-        
 
         player.append(sideBar)
         this.sidebar = sideBar
@@ -284,6 +327,8 @@ class ModelPlayer{
         const titleAfterHr = document.createElement('hr')
 
         const select = document.createElement('select')
+        select.classList.add('form-control')
+        // select.classList.append('form-control')
         options.map((opt, id)=>{
             const option = document.createElement('option')
             option.value = opt
@@ -304,8 +349,10 @@ class ModelPlayer{
     }
 
     showSideBar(){
-        console.log("blaah")
+        // console.log("blaah")
         const showSidebarBtn = document.createElement('button')
+        showSidebarBtn.classList.add('btn')
+        showSidebarBtn.classList.add('text-white')
             showSidebarBtn.onclick=(e)=>{
                 e.preventDefault();
                 this.buildSidebar();
@@ -330,6 +377,7 @@ class ModelPlayer{
         title.classList.add('mt-5')
         title.innerText = "Show points of interests"
         const poiBtn = document.createElement('button')
+        poiBtn.classList.add('btn')
         poiBtn.id ="poi"
         poiBtn.innerText ="show"
         poiBtn.onclick = (e) =>{
@@ -355,7 +403,7 @@ class ModelPlayer{
                             modelViewer.cameraOrbit = hotspots[i]["data-orbit"];
                         }
     
-                        console.log(spot)
+                        // console.log(spot)
                         modelViewer.append(spot)
                     }
                 })
@@ -392,6 +440,7 @@ class ModelPlayer{
         const select = document.createElement('select')
         select.classList.add('w-100')
         select.classList.add('mt-5')
+        select.classList.add('form-control')
         const models = this.model
         const sideBar = this.sidebar
         const choose = document.createElement('option')
@@ -499,33 +548,63 @@ class ModelPlayer{
             model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
         }
 
-        const barrelRoll = document.createElement('div')
-        barrelRoll.classList.add('directions')
-        barrelRoll.classList.add('directions-horizontal')
-        barrelRoll.classList.add('mx-auto')
-        barrelRoll.onclick=(e)=>{
+        const barrelRollRight = document.createElement('i')
+        barrelRollRight.classList.add('fas')//('directions')
+        barrelRollRight.classList.add('fa-redo')//('directions-horizontal')
+        barrelRollRight.classList.add('icones')
+        // barrelRollRight.classList.add('mx-auto')
+        barrelRollRight.onclick=(e)=>{
             e.preventDefault()
             console.log(model.orientation)
             this.z = this.z-10
             model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
         }
 
+        const barrelRollLeft = document.createElement('i')
+        barrelRollLeft.classList.add('fas')//('directions')
+        barrelRollLeft.classList.add('fa-undo')//('directions-horizontal')
+        barrelRollLeft.classList.add('icones')
+        // barrelRollLeft.classList.add('mx-auto')
+        barrelRollLeft.onclick=(e)=>{
+            e.preventDefault()
+            console.log(model.orientation)
+            this.z = this.z+10
+            model.orientation = `${this.x}deg ${this.y}deg ${this.z}deg`;
+        }
+        
         dpad.append(up)
         dpad.append(down)
         dpad.append(left)
         dpad.append(right)
-        dpad.append(barrelRoll)
-
+        right.after(barrelRollRight)
+        right.after(barrelRollLeft)
+        
+        // dpad.after(barrelRoll)
         return dpad;
     }
 
+    fullScreener(){
+        const model = document.getElementById(this.parent)
+        const fsBtn = document.createElement('i')
+        fsBtn.classList.add('fas')
+        fsBtn.classList.add('fa-expand-arrows-alt')
+        fsBtn.classList.add('btn')
+        fsBtn.classList.add('btn-info')
+        fsBtn.classList.add('text-white')
+        // fsBtn.classList.add('icones')
+        fsBtn.setAttribute('style', 'position:absolute;left:1rem;')
+
+        fsBtn.onclick = (e) =>{
+            e.preventDefault()
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen()
+            }else{
+                model.requestFullscreen();
+                
+            }
+        }
+
+        return fsBtn
+    }
 }
-
-/***
- * <button class="Hotspot" 
- * slot="hotspot-1" 
- * data-position="-4.2187474980126485m -0.7969916084390367m -6.023500668861005m" data-normal="0m 1m -2.2204460492503128e-16m" data-visibility-attribute="visible">
- 
-<button class="Hotspot" slot="hotspot-2" data-position="-9.492227459642127m 0.8358180974986169m 1m" data-normal="0m 0m 1m" data-visibility-attribute="visible">
-
-*/
