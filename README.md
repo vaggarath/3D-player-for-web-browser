@@ -1,4 +1,5 @@
 # 3D-player-for-web-browser
+[Online Demo](http://vag.ovh/3d)
 ## Display 3D Models with JS the easy way
 
 Uses Google's [model-viewer](https://modelviewer.dev/) library to display 3D models.
