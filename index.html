@@ -4,28 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>viewer 3D</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <title>3D Viewer</title>
+    <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.4/dist/sweetalert2.all.min.js"></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <link href="https://api.fontshare.com/css?f[]=supreme@400&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/91e8007b12.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
-    <!-- 
-        1:only one div is needed. If you choose to change its id, then you'll have to
-        change the corresponding parameter in the function parameter in src/main.js
-        2:The style is using bootstrap 5.1 && FontAwesome 5 for icons  for laziness purpose^^
-        3:ModelViewer is treated like an HTML element. That said, it's styled either by its
-        id either by its dom name. Cf css/main.css where it's styled using /model-viewer{*rules*}/
-     -->
-    <div id="crane"></div>
-    <!-- <a href="modeles/pillars_1k.hdr" target="_blank" rel="noopener noreferrer">test</a> -->
-
-    <script src="src/ModelPlayer.js"></script>
-    <script src="src/main.js"></script>
+        <div id="crane"></div>
+    
+    <script src="ModelPlayer.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
